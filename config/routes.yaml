@@ -1,0 +1,7 @@
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+# api/config/routes.yaml
+auth:
+    path: /auth
+    methods: ['POST']
