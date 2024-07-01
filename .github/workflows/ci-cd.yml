@@ -1,9 +1,9 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline - API User
 
 on:
   push:
     branches:
-      - main  # Changer pour la branche principale de votre projet
+      - main
 
 jobs:
   build:
@@ -12,23 +12,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'  # Version PHP utilisée dans votre projet
-      
-      - name: Install dependencies
+          php-version: '8.0'
+
+      - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
-      
+
       - name: Run PHPUnit tests
-        run: php bin/phpunit  # Commande pour exécuter les tests PHPUnit
-      
+        run: vendor/bin/phpunit
+
       - name: Build and push Docker image
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}  # Nom d'utilisateur Docker Hub
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  # Mot de passe Docker Hub
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           docker build -t your-docker-username/api-user:latest .
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker push your-docker-username/api-user:latest  # Pousser l'image Docker vers Docker Hub
+          docker push your-docker-username/api-user:latest
